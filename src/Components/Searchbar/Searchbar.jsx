@@ -15,8 +15,9 @@ class Searchbar extends Component {
 
   handleSubmit = e => {
     e.preventDefault();
+
     if (this.state.value.trim() === '') {
-      return toast.error('Сделайте ваш запрос', { autoClose: 3000 });
+      return toast.error('Сделайте ваш запрос 😃', { autoClose: 3000 });
     }
     this.props.onFormSubmit(this.state.value.toLowerCase());
     this.setState({ value: '' });
