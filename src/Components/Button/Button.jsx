@@ -1,11 +1,11 @@
-// import st from './Button.module.css';
+import st from './Button.module.css';
 
-// const Button = ({ onButtonClick }) => {
-//   return (
-//     <button type="submit" className={st.Button} onClick={onButtonClick}>
-//       <span className={st.Label}>Search</span>
-//     </button>
-//   );
-// };
+const Button = ({ onButtonClick }) => {
+  return (
+    <button type="button" className={st.Button} onClick={onButtonClick}>
+      <span className={st.Label}>Load more</span>
+    </button>
+  );
+};
 
-// export default Button;
+export default Button;

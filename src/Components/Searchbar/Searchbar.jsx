@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 
 import { toast } from 'react-toastify';
 
-// import Button from '../Button';
-
 import st from './Searchbar.module.css';
 
 class Searchbar extends Component {
@@ -19,6 +17,7 @@ class Searchbar extends Component {
     if (this.state.value.trim() === '') {
       return toast.error('Сделайте ваш запрос 😃', { autoClose: 3000 });
     }
+
     this.props.onFormSubmit(this.state.value.toLowerCase());
     this.setState({ value: '' });
   };
