@@ -4,11 +4,13 @@ import { ToastContainer } from 'react-toastify';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-import getGallery from './services/getGallery';
+import { getGallery, scroll } from './services/services';
+
 import ImageGallery from './Components/ImageGallery';
 import Searchbar from './Components/Searchbar';
 import Button from './Components/Button';
 import Modal from './Components/Modal';
+import Spinner from './Components/Loader';
 
 class App extends Component {
   state = {
@@ -25,10 +27,13 @@ class App extends Component {
     if (prevState.searchQuery !== this.state.searchQuery) {
       this.fetchImg();
     }
+    if (this.state.gallery.length > 0) {
+      scroll();
+    }
   }
 
   handleChangeQuery = data => {
-    this.setState({ searchQuery: data, page: 1, gallery: [] });
+    this.setState({ searchQuery: data, page: 1, gallery: [], largeImgAlt: '' });
   };
 
   handleImgClick = e => {
@@ -57,7 +62,7 @@ class App extends Component {
           page: page + 1,
         }));
       })
-      .catch(error => toast.error(`${error.message} 🙁`, { autoClose: 3000 }))
+      .catch(error => toast.error(error.message, { autoClose: 3000 }))
       .finally(() => this.setState({ isLoading: false }));
   };
 
@@ -66,6 +71,7 @@ class App extends Component {
   };
 
   render() {
+    console.log('render');
     const { gallery, isLoading, showModal, largeImgURL, largeImgAlt } =
       this.state;
 
@@ -73,6 +79,7 @@ class App extends Component {
       <div className="App">
         <Searchbar onFormSubmit={this.handleChangeQuery} />
         <ImageGallery gallery={gallery} onImgClick={this.handleImgClick} />
+
         {gallery.length > 0 && !isLoading && (
           <Button onButtonClick={this.fetchImg} />
         )}
@@ -82,6 +89,9 @@ class App extends Component {
             <img src={largeImgURL} alt={largeImgAlt} width="960" />
           </Modal>
         )}
+
+        {isLoading && <Spinner />}
+
         <ToastContainer />
       </div>
     );

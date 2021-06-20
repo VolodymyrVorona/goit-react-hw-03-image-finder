@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 import { toast } from 'react-toastify';
 
@@ -8,6 +9,10 @@ class Searchbar extends Component {
   state = { value: '' };
 
   handleInputChange = e => {
+    if (e.currentTarget.value === this.state.value) {
+      return toast.error('Сделайте ваш запрос 😃', { autoClose: 3000 });
+    }
+
     this.setState({ value: e.currentTarget.value });
   };
 
@@ -19,7 +24,6 @@ class Searchbar extends Component {
     }
 
     this.props.onFormSubmit(this.state.value.toLowerCase());
-    this.setState({ value: '' });
   };
 
   render() {
@@ -44,5 +48,9 @@ class Searchbar extends Component {
     );
   }
 }
+
+Searchbar.propTypes = {
+  onFormSubmit: PropTypes.func.isRequired,
+};
 
 export default Searchbar;
