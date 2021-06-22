@@ -10,9 +10,8 @@ const ImageGallery = ({ gallery, onImgClick }) => {
         <ImageGalleryItem
           key={id}
           img={previewURL}
-          largeImg={largeImageURL}
           alt={tags}
-          onImgClick={onImgClick}
+          onImgClick={() => onImgClick(largeImageURL)}
         />
       ))}
     </ul>

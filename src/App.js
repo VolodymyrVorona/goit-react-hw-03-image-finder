@@ -36,18 +36,10 @@ class App extends Component {
     this.setState({ searchQuery: data, page: 1, gallery: [], largeImgAlt: '' });
   };
 
-  handleImgClick = e => {
-    const { alt } = e.target.attributes;
+  handleImgClick = bigImg => {
+    this.setState({ largeImgURL: bigImg });
 
-    this.setState(
-      {
-        largeImgURL: e.target.dataset.img,
-        largeImgAlt: alt,
-      },
-      this.toggleModal,
-    );
-
-    // this.toggleModal();
+    this.toggleModal();
   };
 
   fetchImg = () => {
@@ -57,10 +49,14 @@ class App extends Component {
 
     getGallery(searchQuery, page)
       .then(({ hits }) => {
-        this.setState(({ gallery, page }) => ({
-          gallery: [...gallery, ...hits],
-          page: page + 1,
-        }));
+        hits.length === 0
+          ? toast.error(
+              'there is no match for your query, please specify your query.',
+            )
+          : this.setState(({ gallery, page }) => ({
+              gallery: [...gallery, ...hits],
+              page: page + 1,
+            }));
       })
       .catch(error => toast.error(error.message, { autoClose: 3000 }))
       .finally(() => this.setState({ isLoading: false }));
